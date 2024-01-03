@@ -1,4 +1,4 @@
-#!/bin/sh -xe
+#!/bin/bash -xe
 ulimit -s unlimited
 ##############################################################################
 ## User set up veriables
@@ -19,8 +19,16 @@ if [ -z "$1" ]
     echo Branch is ${1}
     branch=${1}
 fi
+if [ -z "$2" ]
+  then
+    echo "No second argument"
+    commit=none
+  else
+    echo Commit is ${2}
+    commit=${2}
+fi
 MODULESHOME=/usr/share/lmod/lmod
-testDir=${dirRoot}/${intelVersion}/SHiELD_physics/${branch}
+testDir=${dirRoot}/${intelVersion}/SHiELD_physics/${branch}/${commit}
 logDir=${testDir}/log
 baselineDir=${dirRoot}/baselines/intel/${intelVersion}
 ## Run the CI Test
@@ -36,7 +44,7 @@ set -o pipefail
 # Define the test
 test=d96_1k.solo.mtn_schar
 # Execute the test piping output to log file
-./${test} " --partition=p2 --mpi=pmi2 --job-name=SP_${test} singularity exec -B /contrib ${container} ${container_env_script}" |& tee ${logDir}/run_${test}.log
+./${test} " --partition=p2 --mpi=pmi2 --job-name=${commit}_${test} singularity exec -B /contrib ${container} ${container_env_script}" |& tee ${logDir}/run_${test}.log
 
 ## Compare Restarts to Baseline
 source $MODULESHOME/init/sh
