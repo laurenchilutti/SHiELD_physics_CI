@@ -22,7 +22,7 @@ if [ -z "$1" ]
     echo Branch is ${1}
     branch=${1}
 fi
-# Second Argument should be $GITHUB_SHA whcih  is the commit hash of the
+# Second Argument should be $GITHUB_SHA which  is the commit hash of the
 # branch or PR to trigger the CI, if run manually, you do not need a 2nd
 # argument.  This is needed in the circumstance where a PR is created, 
 # then the CI triggers, and before that CI has finished, the developer
